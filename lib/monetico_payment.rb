@@ -100,12 +100,12 @@ class MoneticoPayment < Aduki::Initializable
     [(name ? name : attr), (val ? val.call(self) : send(attr))]
   end
 
-  def map_attrs         ; ATTRS.keys.sort.map { |a| yield a }                                   ; end
-  def hash_data         ; map_attrs { |a| hash_data_item(a, ATTRS[a]).join("=") }.join('*')     ; end
-  def hidden_input n, v ; "<input type='hidden' name='#{n}' value='#{v}'/>"                     ; end
-  def hidden_inputs     ; map_attrs { |a| hidden_input *hash_data_item(a, ATTRS[a]) }.join      ; end
-  def mac               ; hmac_sha1(hmac_key, hash_data)                                        ; end
-  def hmac_sha1 k, data ; OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new("sha1"), k, data) ; end
+  def map_attrs         ; ATTRS.keys.sort.map { |a| yield a }                               ; end
+  def hash_data         ; map_attrs { |a| hash_data_item(a, ATTRS[a]).join("=") }.join('*') ; end
+  def hidden_input n, v ; "<input type='hidden' name='#{n}' value='#{v}'/>"                 ; end
+  def hidden_inputs     ; map_attrs { |a| hidden_input *hash_data_item(a, ATTRS[a]) }.join  ; end
+  def mac               ; hmac_sha1(hmac_key, hash_data)                                    ; end
+  def hmac_sha1 k, data ; OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha1"), k, data)     ; end
 
   def hmac_key
     k0   = key[0..37]

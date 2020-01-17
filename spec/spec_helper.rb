@@ -1,3 +1,4 @@
+require "aduki"
 require "bundler/setup"
 require "monetico_payment"
 
