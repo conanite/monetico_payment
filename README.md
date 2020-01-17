@@ -56,7 +56,7 @@ Or install it yourself as:
 ```ruby
 params = request.request_parameters  # or whatever you use to get POST params
 mp = MoneticoPayment.new(secret_key)
-valid = mp.validate                  # true if MAC matches ; false otherwise
+valid = mp.validate(params)          # true if MAC matches ; false otherwise
 ```
 
 
