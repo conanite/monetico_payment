@@ -86,10 +86,11 @@ RSpec.describe MoneticoPayment do
                              texte_libre: "Ton argent est notre priorite",
                              mail: "client-name@son-domain.example.com")
 
-    expect(mp.mac).to eq "bc7569e8ea32ef97965c15d20e7851a1d7609fb2"
+    expect(mp.mac).to eq "99bf8132666daf519548361302808842ec4ee5ac"
     expect(mp.hidden_inputs.gsub(/></, ">\n<")).to eq "
+<input type='hidden' name='MAC' value='99bf8132666daf519548361302808842ec4ee5ac'/>
 <input type='hidden' name='contexte_commande' value='eyJiaWxsaW5nIjp7ImFkZHJlc3NMaW5lMSI6IjIgVmlsbGEgZGUgbCdIZXJtaXQiLCJjaXR5IjoiUGFyaXMiLCJwb3N0YWxDb2RlIjoiNzUwOTkiLCJjb3VudHJ5IjoiRlIiLCJjaXZpbGl0eSI6Ik0iLCJmaXJzdE5hbWUiOiJDbGludCIsImxhc3ROYW1lIjoiRWFzdHdvb2QifX0='/>
-<input type='hidden' name='date' value='01/01/2020_a_12:34:56'/>
+<input type='hidden' name='date' value='01/01/2020:12:34:56'/>
 <input type='hidden' name='lgue' value='FR'/>
 <input type='hidden' name='mail' value='client-name@son-domain.example.com'/>
 <input type='hidden' name='montant' value='123.45EUR'/>

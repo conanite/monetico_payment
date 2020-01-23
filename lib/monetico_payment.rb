@@ -74,7 +74,7 @@ require 'base64'
 class MoneticoPayment < Aduki::Initializable
   ATTRS = { "version"           => { value: ->(mp) { mp.version || "3.0" } },
             "tpe"               => { name: "TPE" },
-            "date"              => { value: ->(mp) { mp.date.strftime("%d/%m/%Y_a_%H:%M:%S") } },
+            "date"              => { value: ->(mp) { mp.date.strftime("%d/%m/%Y:%H:%M:%S") } },
             "montant"           => { value: ->(mp) { ("%.2f" % mp.montant) + (mp.currency || "EUR") } },
             "reference"         => { },
             "url_retour_ok"     => { },
@@ -83,7 +83,7 @@ class MoneticoPayment < Aduki::Initializable
             "societe"           => { },
             "contexte_commande" => { value: ->(mp) { Base64.strict_encode64(mp.contexte_commande.to_json).strip } },
             "texte_libre"       => { name: "texte-libre" },
-            "mail"              => { }
+            "mail"              => { },
           }
   attr_accessor :key, :currency, *(ATTRS.keys)
 
@@ -100,12 +100,14 @@ class MoneticoPayment < Aduki::Initializable
     [(name ? name : attr), (val ? val.call(self) : send(attr))]
   end
 
-  def map_attrs         ; ATTRS.keys.sort.map { |a| yield a }                               ; end
-  def hash_data         ; map_attrs { |a| hash_data_item(a, ATTRS[a]).join("=") }.join('*') ; end
-  def hidden_input n, v ; "<input type='hidden' name='#{n}' value='#{v}'/>"                 ; end
-  def hidden_inputs     ; map_attrs { |a| hidden_input *hash_data_item(a, ATTRS[a]) }.join  ; end
-  def mac               ; hmac_sha1(hmac_key, hash_data)                                    ; end
-  def hmac_sha1 k, data ; OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha1"), k, data)     ; end
+  def map_attrs           ; ATTRS.keys.sort.map { |a| yield a }                               ; end
+  def hash_data           ; map_attrs { |a| hash_data_item(a, ATTRS[a]).join("=") }.join('*') ; end
+  def hidden_input   n, v ; "<input type='hidden' name='#{n}' value='#{v}'/>"                 ; end
+  def other_hidden_inputs ; map_attrs { |a| hidden_input *hash_data_item(a, ATTRS[a]) }.join  ; end
+  def mac_hidden_input    ; hidden_input :MAC, mac                                            ; end
+  def hidden_inputs       ; mac_hidden_input + other_hidden_inputs                            ; end
+  def mac                 ; hmac_sha1(hmac_key, hash_data)                                    ; end
+  def hmac_sha1   k, data ; OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha1"), k, data)     ; end
 
   def hmac_key
     k0   = key[0..37]
