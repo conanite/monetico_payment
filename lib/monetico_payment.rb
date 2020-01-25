@@ -100,7 +100,8 @@ class MoneticoPayment < Aduki::Initializable
     [(name ? name : attr), (val ? val.call(self) : send(attr))]
   end
 
-  def map_attrs           ; ATTRS.keys.sort.map { |a| yield a }                               ; end
+  def attr_name         a ; ATTRS[a][:name] ? ATTRS[a][:name] : a                             ; end
+  def map_attrs           ; ATTRS.keys.sort_by { |k| attr_name(k) }.map { |a| yield a }       ; end
   def hash_data           ; map_attrs { |a| hash_data_item(a, ATTRS[a]).join("=") }.join('*') ; end
   def hidden_input   n, v ; "<input type='hidden' name='#{n}' value='#{v}'/>"                 ; end
   def other_hidden_inputs ; map_attrs { |a| hidden_input *hash_data_item(a, ATTRS[a]) }.join  ; end

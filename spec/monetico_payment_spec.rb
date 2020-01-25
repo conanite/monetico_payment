@@ -86,9 +86,10 @@ RSpec.describe MoneticoPayment do
                              texte_libre: "Ton argent est notre priorite",
                              mail: "client-name@son-domain.example.com")
 
-    expect(mp.mac).to eq "99bf8132666daf519548361302808842ec4ee5ac"
+    expect(mp.mac).to eq "67a0d2428715fc6a7c0afb70fce439831cd0b9af"
     expect(mp.hidden_inputs.gsub(/></, ">\n<")).to eq "
-<input type='hidden' name='MAC' value='99bf8132666daf519548361302808842ec4ee5ac'/>
+<input type='hidden' name='MAC' value='67a0d2428715fc6a7c0afb70fce439831cd0b9af'/>
+<input type='hidden' name='TPE' value='1234567'/>
 <input type='hidden' name='contexte_commande' value='eyJiaWxsaW5nIjp7ImFkZHJlc3NMaW5lMSI6IjIgVmlsbGEgZGUgbCdIZXJtaXQiLCJjaXR5IjoiUGFyaXMiLCJwb3N0YWxDb2RlIjoiNzUwOTkiLCJjb3VudHJ5IjoiRlIiLCJjaXZpbGl0eSI6Ik0iLCJmaXJzdE5hbWUiOiJDbGludCIsImxhc3ROYW1lIjoiRWFzdHdvb2QifX0='/>
 <input type='hidden' name='date' value='01/01/2020:12:34:56'/>
 <input type='hidden' name='lgue' value='FR'/>
@@ -97,7 +98,6 @@ RSpec.describe MoneticoPayment do
 <input type='hidden' name='reference' value='F-20/30405'/>
 <input type='hidden' name='societe' value='Ma Societe'/>
 <input type='hidden' name='texte-libre' value='Ton argent est notre priorite'/>
-<input type='hidden' name='TPE' value='1234567'/>
 <input type='hidden' name='url_retour_err' value='https://dom.example.com/pay/failure'/>
 <input type='hidden' name='url_retour_ok' value='https://dom.example.com/pay/success'/>
 <input type='hidden' name='version' value='3.0'/>
