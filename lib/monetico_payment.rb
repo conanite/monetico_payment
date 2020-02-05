@@ -90,9 +90,9 @@ class MoneticoPayment < Aduki::Initializable
   # POST params only, ignore query params and other params ; in rails use req.request_parameters
   # assumes params keys are symbols
   def validate params, logger=nil
-    given_mac = params.delete :MAC
+    given_mac = params.delete(:MAC).upcase
     message   = params.keys.map(&:to_s).sort.map { |f| "#{f}=#{params[f.to_sym]}" }.join('*')
-    calc_mac  = hmac_sha1(hmac_key, message)
+    calc_mac  = hmac_sha1(hmac_key, message).upcase
     if logger
       logger.info "MoneticoPayment#validate: given MAC is #{given_mac.inspect}"
       logger.info "MoneticoPayment#validate: message is #{message.inspect}"
