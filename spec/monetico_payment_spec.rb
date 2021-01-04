@@ -104,4 +104,40 @@ RSpec.describe MoneticoPayment do
 ".strip
   end
 
+  it "generates a query string to append to an IFRAME src url" do
+    mp = MoneticoPayment.new(key: key,
+                             tpe: "1234567",
+                             date: now,
+                             montant: 123.45,
+                             currency: "EUR",
+                             reference: "F-20/30405",
+                             url_retour_ok: "https://dom.example.com/pay?success=success",
+                             url_retour_err: "https://dom.example.com/pay?success=failure",
+                             lgue: "FR",
+                             societe: "Ma Societe",
+                             contexte_commande: contexte_commande,
+                             texte_libre: "Ton argent est notre priorite",
+                             mail: "client-name@son-domain.example.com")
+
+    expect(mp.mac).to eq "3c27ea94d9ae35b38ebc3184918fea37e52765b5"
+
+    expected = [
+      "MAC=3c27ea94d9ae35b38ebc3184918fea37e52765b5",
+      "tpe=1234567",
+      "contexte_commande=eyJiaWxsaW5nIjp7ImFkZHJlc3NMaW5lMSI6IjIgVmlsbGEgZGUgbCdIZXJtaXQiLCJjaXR5IjoiUGFyaXMiLCJwb3N0YWxDb2RlIjoiNzUwOTkiLCJjb3VudHJ5IjoiRlIiLCJjaXZpbGl0eSI6Ik0iLCJmaXJzdE5hbWUiOiJDbGludCIsImxhc3ROYW1lIjoiRWFzdHdvb2QifX0%3D",
+      "date=01%2F01%2F2020%3A12%3A34%3A56",
+      "lgue=FR",
+      "mail=client-name%40son-domain%2Eexample%2Ecom",
+      "montant=123%2E45EUR",
+      "reference=F-20%2F30405",
+      "societe=Ma%20Societe",
+      "texte_libre=Ton%20argent%20est%20notre%20priorite",
+      "url_retour_err=https%3A%2F%2Fdom%2Eexample%2Ecom%2Fpay%3Fsuccess%3Dfailure",
+      "url_retour_ok=https%3A%2F%2Fdom%2Eexample%2Ecom%2Fpay%3Fsuccess%3Dsuccess",
+      "version=3%2E0"
+    ].join("&")
+
+    expect(mp.iframe_params).to eq expected
+  end
+
 end

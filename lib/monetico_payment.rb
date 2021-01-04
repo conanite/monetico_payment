@@ -2,7 +2,7 @@ require 'openssl'
 require 'base64'
 
 #
-# Please take note of these important license terms, copied from "MIT-LICENSE.txt"
+# Please take note of these important license terms, and even more important extra license terms, copied from "MIT-LICENSE.txt"
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -11,6 +11,8 @@ require 'base64'
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+#
+# Extra license terms:
 #
 # In particular, this software may not be compliant with any version of monetico,
 # it may not work, it may send money in the wrong direction, it may siphon cash away
@@ -71,6 +73,9 @@ require 'base64'
 #                          texte_libre: "Ton argent est notre priorite",
 #                          mail: "client-name@son-domain.example.com" ) # mail: optional
 #
+# mp.hidden_inputs # returns HTML string you just integrate into your form
+#
+#
 class MoneticoPayment < Aduki::Initializable
   ATTRS = { "version"           => { value: ->(mp) { mp.version || "3.0" } },
             "tpe"               => { name: "TPE" },
@@ -114,6 +119,14 @@ class MoneticoPayment < Aduki::Initializable
   def hidden_inputs       ; mac_hidden_input + other_hidden_inputs                            ; end
   def mac                 ; hmac_sha1(hmac_key, hash_data)                                    ; end
   def hmac_sha1   k, data ; OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha1"), k, data)     ; end
+
+  def percent_encode s
+    s.gsub('%', '%25').gsub(/[ \n"\!\#\$\'\(\)\*\+\,:;=@\&\?.<>\\^_`{\|}~\[\]\/]/) { |x| "%%%2X" % x.ord }
+  end
+
+  def iframe_param k, v ; "#{k}=#{percent_encode v}"                                        ; end
+  def iframe_value    a ; hash_data_item(a, ATTRS[a])[1]                                    ; end
+  def iframe_params     ; ([iframe_param(:MAC, mac)] + map_attrs { |a| iframe_param(a, iframe_value(a)) }).join("&") ; end
 
   def hmac_key
     k0   = key[0..37]
