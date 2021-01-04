@@ -88,6 +88,16 @@ mp = MoneticoPayment.new(key:               secret_key,
                          contexte_commande: { billing: billing_info },
                          texte_libre:       "Ton argent est notre priorite",
                          mail:              "client-name@son-domain.example.com" ) # mail: optional
+
+
+# if you want to submit a form, use #hidden_inputs :
+
+<form action="https://whatever-monetico-url-you-are-using/"><%= mp.hidden_inputs %></form>
+
+# if you're showing monetico in an iframe, use #iframe_params :
+
+<iframe src="https://whatever-monetico-url-you-are-using/?<%= mp.iframe_params %>"/>
+
 ```
 
 ## Development

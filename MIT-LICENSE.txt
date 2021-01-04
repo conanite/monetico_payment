@@ -19,3 +19,22 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+Extra license terms:
+
+In particular, this software may not be compliant with any version of monetico,
+it may not work, it may send money in the wrong direction, it may siphon cash away
+to untraceable offshore accounts, it may cause you to get fired, sued, bankrupt and/or
+divorced, and also lose your hair and/or custody of your children. By using this software you
+indemnify, defend, and hold harmless the authors, copyright holders, and relevant
+financial institutions from liability and damages of any kind arising directly or indirectly
+from the use of this software.
+
+By using this software you agree that you are using the software entirely at your own risk
+and peril, and that you have inspected the source code of the software and that you have
+satisfied yourself that the software does exactly what you expect it to do.
+
+The original author is not in any way connected to or affiliated with Monetico, Crédit Mutuel,
+CIC, or Euro-Information. No banking or financial institution has authorised, financed,
+approved, verified or condoned this software. All trademarks are registered trademarks
+of their respective owners.
