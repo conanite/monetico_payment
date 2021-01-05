@@ -86,6 +86,7 @@ RSpec.describe MoneticoPayment do
                              texte_libre: "Ton argent est notre priorite",
                              mail: "client-name@son-domain.example.com")
 
+
     expect(mp.mac).to eq "67a0d2428715fc6a7c0afb70fce439831cd0b9af"
     expect(mp.hidden_inputs.gsub(/></, ">\n<")).to eq "
 <input type='hidden' name='MAC' value='67a0d2428715fc6a7c0afb70fce439831cd0b9af'/>
@@ -122,12 +123,13 @@ RSpec.describe MoneticoPayment do
     expect(mp.mac).to eq "3c27ea94d9ae35b38ebc3184918fea37e52765b5"
 
     expected = [
-      "MAC=3c27ea94d9ae35b38ebc3184918fea37e52765b5",
+      "MAC=e49ccdcada725802b3e00dec0488b83997489940",
       "tpe=1234567",
       "contexte_commande=eyJiaWxsaW5nIjp7ImFkZHJlc3NMaW5lMSI6IjIgVmlsbGEgZGUgbCdIZXJtaXQiLCJjaXR5IjoiUGFyaXMiLCJwb3N0YWxDb2RlIjoiNzUwOTkiLCJjb3VudHJ5IjoiRlIiLCJjaXZpbGl0eSI6Ik0iLCJmaXJzdE5hbWUiOiJDbGludCIsImxhc3ROYW1lIjoiRWFzdHdvb2QifX0%3D",
       "date=01%2F01%2F2020%3A12%3A34%3A56",
       "lgue=FR",
       "mail=client-name%40son-domain%2Eexample%2Ecom",
+      "mode_affichage=iframe",
       "montant=123%2E45EUR",
       "reference=F-20%2F30405",
       "societe=Ma%20Societe",

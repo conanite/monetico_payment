@@ -85,6 +85,7 @@ class MoneticoPayment < Aduki::Initializable
             "url_retour_ok"     => { },
             "url_retour_err"    => { },
             "lgue"              => { },
+            "mode_affichage"    => { ignore: -> (mp) { !mp.mode_affichage } },
             "societe"           => { },
             "contexte_commande" => { value: ->(mp) { Base64.strict_encode64(mp.contexte_commande.to_json).strip } },
             "texte_libre"       => { name: "texte-libre" },
@@ -111,7 +112,9 @@ class MoneticoPayment < Aduki::Initializable
   end
 
   def attr_name         a ; ATTRS[a][:name] ? ATTRS[a][:name] : a                             ; end
-  def map_attrs           ; ATTRS.keys.sort_by { |k| attr_name(k) }.map { |a| yield a }       ; end
+  def relevant?         a ; a == "mode_affichage" ? mode_affichage : true                     ; end
+  def relevant_attrs      ; ATTRS.keys.select { |a| relevant? a }                             ; end
+  def map_attrs           ; relevant_attrs.sort_by { |k| attr_name(k) }.map { |a| yield a }   ; end
   def hash_data           ; map_attrs { |a| hash_data_item(a, ATTRS[a]).join("=") }.join('*') ; end
   def hidden_input   n, v ; "<input type='hidden' name='#{n}' value='#{v}'/>"                 ; end
   def other_hidden_inputs ; map_attrs { |a| hidden_input *hash_data_item(a, ATTRS[a]) }.join  ; end
@@ -126,7 +129,10 @@ class MoneticoPayment < Aduki::Initializable
 
   def iframe_param k, v ; "#{k}=#{percent_encode v}"                                        ; end
   def iframe_value    a ; hash_data_item(a, ATTRS[a])[1]                                    ; end
-  def iframe_params     ; ([iframe_param(:MAC, mac)] + map_attrs { |a| iframe_param(a, iframe_value(a)) }).join("&") ; end
+  def iframe_params
+    self.mode_affichage = 'iframe'
+    ([iframe_param(:MAC, mac)] + map_attrs { |a| iframe_param(a, iframe_value(a)) }).join("&")
+  end
 
   def hmac_key
     k0   = key[0..37]
