@@ -131,7 +131,8 @@ class MoneticoPayment < Aduki::Initializable
   def iframe_value    a ; hash_data_item(a, ATTRS[a])[1]                                    ; end
   def iframe_params
     self.mode_affichage = 'iframe'
-    ([iframe_param(:MAC, mac)] + map_attrs { |a| iframe_param(a, iframe_value(a)) }).join("&")
+    # ([iframe_param(:MAC, mac)] + map_attrs { |a| iframe_param(a, iframe_value(a)) }).join("&")
+    ([iframe_param(:MAC, mac)] + map_attrs { |a| iframe_param(*(hash_data_item a, ATTRS[a])) }).join("&")
   end
 
   def hmac_key

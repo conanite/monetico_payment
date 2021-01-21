@@ -124,7 +124,7 @@ RSpec.describe MoneticoPayment do
 
     expected = [
       "MAC=e49ccdcada725802b3e00dec0488b83997489940",
-      "tpe=1234567",
+      "TPE=1234567",
       "contexte_commande=eyJiaWxsaW5nIjp7ImFkZHJlc3NMaW5lMSI6IjIgVmlsbGEgZGUgbCdIZXJtaXQiLCJjaXR5IjoiUGFyaXMiLCJwb3N0YWxDb2RlIjoiNzUwOTkiLCJjb3VudHJ5IjoiRlIiLCJjaXZpbGl0eSI6Ik0iLCJmaXJzdE5hbWUiOiJDbGludCIsImxhc3ROYW1lIjoiRWFzdHdvb2QifX0%3D",
       "date=01%2F01%2F2020%3A12%3A34%3A56",
       "lgue=FR",
@@ -133,7 +133,7 @@ RSpec.describe MoneticoPayment do
       "montant=123%2E45EUR",
       "reference=F-20%2F30405",
       "societe=Ma%20Societe",
-      "texte_libre=Ton%20argent%20est%20notre%20priorite",
+      "texte-libre=Ton%20argent%20est%20notre%20priorite",
       "url_retour_err=https%3A%2F%2Fdom%2Eexample%2Ecom%2Fpay%3Fsuccess%3Dfailure",
       "url_retour_ok=https%3A%2F%2Fdom%2Eexample%2Ecom%2Fpay%3Fsuccess%3Dsuccess",
       "version=3%2E0"
